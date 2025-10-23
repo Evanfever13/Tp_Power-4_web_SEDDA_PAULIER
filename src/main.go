@@ -21,6 +21,12 @@ func main() {
 		}
 	})
 
+	http.HandleFunc("/gameinit", func(w http.ResponseWriter, r *http.Request) {
+		if err := temp.ExecuteTemplate(w, "GameInit", nil); err != nil {
+			http.Error(w, "Erreur Templates", http.StatusInternalServerError)
+		}
+	})
+
 	fichierserveur := http.FileServer(http.Dir("./assets"))
 	http.Handle("/static/", http.StripPrefix("/static/", fichierserveur))
 
