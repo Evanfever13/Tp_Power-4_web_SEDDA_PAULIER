@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/home.css">
+    <link rel="stylesheet" href="/static/gameplay.css">
     <title>CyberPuissance 4</title>
 </head>
 
@@ -21,26 +21,37 @@
     </header>
 
     <main>
-        <section>
+        <section class="info">
                 <h2>Tour de {{.Playerturn}}</h2>
                 <h3>Joueur 1 : ({{.Player1}}) - Symbole: X</h3>
                 <h3>Joueur 2 : ({{.Player2}}) - Symbole: O</h3>
         </section>
         
-        <section>
+        <section class = "gameboard">
             {{range .Gameboard}}
                 <div class="row">
                     {{range .}}
-                        <div class="cell">
-                            {{if eq . ""}}
-                                &nbsp;
-                            {{else}}
-                                {{.}}
+                        {{if eq . ""}}
+                            <div class="void">&nbsp;</div>
                             {{end}}
-                        </div>
+                        {{if eq . "O"}}
+                            <div class= "o">&nbsp;</div>
+                            {{end}}
+                        {{if eq . "X"}}
+                            <div class="x">&nbsp;</div>
+                        {{end}}
                     {{end}}
                 </div>
             {{end}}
+            <div class="row">
+                <div class="cell_info">1</div>
+                <div class="cell_info">2</div>
+                <div class="cell_info">3</div>
+                <div class="cell_info">4</div>
+                <div class="cell_info">5</div>
+                <div class="cell_info">6</div>
+                <div class="cell_info">7</div>
+            </div>
         </section>
 
         <section>
