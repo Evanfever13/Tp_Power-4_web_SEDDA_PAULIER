@@ -1,0 +1,65 @@
+{{define "gameplay"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/home.css">
+    <title>CyberPuissance 4</title>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <a href="/"><p>Accueil</p></a>
+            <a href="/gameinit"><p>Jouer</p></a>
+            <img src="/static/img/Logo.png" alt="Logo CyberPuissance4">
+            <a href="/scores"><p>Scores</p></a>
+            <a href="/profile"><p>Profil</p></a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+                <h2>Tour de {{.Playerturn}}</h2>
+                <h3>Joueur 1 : ({{.Player1}}) - Symbole: X</h3>
+                <h3>Joueur 2 : ({{.Player2}}) - Symbole: O</h3>
+        </section>
+        
+        <section>
+            {{range .Gameboard}}
+                <div class="row">
+                    {{range .}}
+                        <div class="cell">
+                            {{if eq . ""}}
+                                &nbsp;
+                            {{else}}
+                                {{.}}
+                            {{end}}
+                        </div>
+                    {{end}}
+                </div>
+            {{end}}
+        </section>
+
+        <section>
+            <form class="Action" action="/gameplay" method="post">
+
+                <label for="Play">Choisissez une colonne pour jouer (entre 1 et 7) :</label>
+                <input type="text" id="Play" name="Play" required>
+
+                <button type="submit" class="btn-start">Tour suivant</button>
+            </form>
+        </section>
+    </main>
+        
+        
+
+    <footer>
+        <p>2024 Chill Games. Tous droits reserves.</p>
+    </footer>
+
+</body>
+</html>
+{{end}}

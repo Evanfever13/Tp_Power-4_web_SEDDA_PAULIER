@@ -48,7 +48,7 @@ func main() {
 		Player1    string
 		Player2    string
 		Gameboard  [6][7]string
-		Playerturn int
+		Playerturn string
 	}
 	NewGame := Game{}
 
@@ -67,13 +67,8 @@ func main() {
 	})
 
 	http.HandleFunc("/gameinit", func(w http.ResponseWriter, r *http.Request) {
-		if err := temp.ExecuteTemplate(w, "GameInit", nil); err != nil {
-			http.Error(w, "Erreur Templates", http.StatusInternalServerError)
-		}
 		if r.Method == http.MethodPost {
-
-			err := r.ParseForm()
-			if err != nil {
+			if err := r.ParseForm(); err != nil {
 				http.Error(w, "Impossible de lire le formulaire", http.StatusBadRequest)
 				return
 			}
@@ -83,18 +78,24 @@ func main() {
 				Player1:    joueur1,
 				Player2:    joueur2,
 				Gameboard:  [6][7]string{},
-				Playerturn: 1,
+				Playerturn: joueur1,
 			}
 			fmt.Println("Noms des joueurs :", NewGame.Player1, "et", NewGame.Player2)
 			fmt.Println("Initialisation du plateau de jeu...", NewGame.Gameboard)
 			fmt.Println("C'est au tour de", NewGame.Player1)
 			fmt.Println("Démarrage d'une nouvelle partie...")
+
 			http.Redirect(w, r, "/gameplay", http.StatusSeeOther)
+			return
+		}
+
+		if err := temp.ExecuteTemplate(w, "GameInit", nil); err != nil {
+			http.Error(w, "Erreur Templates", http.StatusInternalServerError)
 		}
 	})
 
 	http.HandleFunc("/gameplay", func(w http.ResponseWriter, r *http.Request) {
-		if err := temp.ExecuteTemplate(w, "Home", NewGame); err != nil {
+		if err := temp.ExecuteTemplate(w, "gameplay", NewGame); err != nil {
 			http.Error(w, "Erreur Templates", http.StatusInternalServerError)
 		}
 	})
