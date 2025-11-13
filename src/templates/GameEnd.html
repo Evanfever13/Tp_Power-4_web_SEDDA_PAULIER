@@ -1,0 +1,45 @@
+{{define "GameEnd"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/gameend.css">
+    <title>CyberPuissance 4</title>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <a href="/"><p>Accueil</p></a>
+            <a href="/gameinit"><p>Jouer</p></a>
+            <img src="/static/img/Logo.png" alt="Logo CyberPuissance4">
+            <a href="/scores"><p>Scores</p></a>
+            <a href="/profile"><p>Profil</p></a>
+        </nav>
+    </header>
+
+    <main>
+        
+        <article>
+            <h1>Score: </h1>
+            <h2>Victoire de {{.PlayerWinner}} !</h2>
+            <h3>Joueur 1 : {{.Player1Name}} — Symbole: {{.Player1Sym}}</h3>
+            <h3>Joueur 2 : {{.Player2Name}} — Symbole: {{.Player2Sym}}</h3>
+
+            <a href="/"><button>Accueil</button></a>
+            <a href="/gameinit"><button>Recommencer</button></a>
+        </article>
+
+    </main>
+        
+        
+
+    <footer>
+        <p>2024 Chill Games. Tous droits reserves.</p>
+    </footer>
+
+</body>
+</html>
+{{end}}
