@@ -11,12 +11,13 @@ import (
 
 // === Structure du jeu ===
 type Game struct {
-	Player1Name string
-	Player2Name string
-	Player1Sym  string
-	Player2Sym  string
-	Gameboard   [6][7]string
-	Playerturn  string // contient le symbole courant ("X" ou "O")
+	PlayerWinner string
+	Player1Name  string
+	Player2Name  string
+	Player1Sym   string
+	Player2Sym   string
+	Gameboard    [6][7]string
+	Playerturn   string // contient le symbole courant ("X" ou "O")
 }
 
 // === Vérification victoire ===
@@ -58,16 +59,11 @@ func WinCheck(board [6][7]string) bool {
 
 // === Initialisation des symboles et du tour ===
 func (g *Game) InitPlayer() {
-	if rand.Intn(2) == 0 {
-		g.Player1Sym, g.Player2Sym = "X", "O"
-		g.Playerturn = g.Player1Sym
-		fmt.Println("Le joueur 1 commence avec X")
-	} else {
-		g.Player1Sym, g.Player2Sym = "O", "X"
-		g.Playerturn = g.Player2Sym
-		fmt.Println("Le joueur 2 commence avec X")
-	}
-	fmt.Println("Symbole J1:", g.Player1Sym, "| Symbole J2:", g.Player2Sym, "| Tour:", g.Playerturn)
+
+	g.Player1Sym, g.Player2Sym = "X", "O"
+	g.Playerturn = g.Player1Sym
+	fmt.Println("Le joueur 1 commence avec X")
+
 }
 
 // === Changement de joueur ===
@@ -120,7 +116,12 @@ func GamePlay(w http.ResponseWriter, r *http.Request, temp *template.Template, g
 		} else {
 			if WinCheck(g.Gameboard) {
 				fmt.Println("Victoire du symbole", g.Playerturn) // Test + Vérif du Winner
-				if err := temp.ExecuteTemplate(w, "Victory", g); err != nil {
+				if g.Playerturn == "O" {
+					g.PlayerWinner = g.Player1Name
+				} else {
+					g.PlayerWinner = g.Player2Name
+				}
+				if err := temp.ExecuteTemplate(w, "GameEnd", g); err != nil {
 					fmt.Println("Template Victory manquant, retour au gameplay") // En cas de manque d'info/Templates
 				} else {
 					return
@@ -183,6 +184,10 @@ func main() {
 		GamePlay(w, r, temp, &NewGame)
 	})
 
+	http.HandleFunc("/gameend", func(w http.ResponseWriter, r *http.Request) {
+		// Utilise la logique de jeu
+		GamePlay(w, r, temp, &NewGame)
+	})
 	// Fichiers statiques
 	fichierserveur := http.FileServer(http.Dir("./assets"))
 	http.Handle("/static/", http.StripPrefix("/static/", fichierserveur))
