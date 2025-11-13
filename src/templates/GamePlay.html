@@ -22,9 +22,9 @@
 
     <main>
         <section class="info">
-                <h2>Tour de {{.Playerturn}}</h2>
-                <h3>Joueur 1 : ({{.Player1}}) - Symbole: X</h3>
-                <h3>Joueur 2 : ({{.Player2}}) - Symbole: O</h3>
+                <h2>Tour du symbole {{.Playerturn}}</h2>
+                <h3>Joueur 1 : {{.Player1Name}} — Symbole: {{.Player1Sym}}</h3>
+                <h3>Joueur 2 : {{.Player2Name}} — Symbole: {{.Player2Sym}}</h3>
         </section>
         
         <section class = "gameboard">
@@ -57,8 +57,8 @@
         <section>
             <form class="Action" action="/gameplay" method="post">
 
-                <label for="Play">Choisissez une colonne pour jouer (entre 1 et 7) :</label>
-                <input type="text" id="Play" name="Play" required>
+                <label for="colonne">Choisissez une colonne (1 à 7) :</label>
+                <input type="text" id="colonne" name="colonne" required>
 
                 <button type="submit" class="btn-start">Tour suivant</button>
             </form>
