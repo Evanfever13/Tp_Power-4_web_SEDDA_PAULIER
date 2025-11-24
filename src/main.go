@@ -116,7 +116,7 @@ func GamePlay(w http.ResponseWriter, r *http.Request, temp *template.Template, g
 		} else {
 			if WinCheck(g.Gameboard) {
 				fmt.Println("Victoire du symbole", g.Playerturn) // Test + Vérif du Winner
-				if g.Playerturn == "O" {
+				if g.Playerturn == g.Player1Sym {
 					g.PlayerWinner = g.Player1Name
 				} else {
 					g.PlayerWinner = g.Player2Name

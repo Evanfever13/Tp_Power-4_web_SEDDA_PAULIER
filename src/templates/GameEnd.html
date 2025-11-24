@@ -9,7 +9,6 @@
 </head>
 
 <body>
-
     <header>
         <nav>
             <a href="/"><p>Accueil</p></a>
@@ -21,25 +20,22 @@
     </header>
 
     <main>
-        
         <article>
-            <h1>Score: </h1>
+            <h1>Résultat de la partie</h1>
             <h2>Victoire de {{.PlayerWinner}} !</h2>
-            <h3>Joueur 1 : {{.Player1Name}} — Symbole: {{.Player1Sym}}</h3>
-            <h3>Joueur 2 : {{.Player2Name}} — Symbole: {{.Player2Sym}}</h3>
-
-            <a href="/"><button>Accueil</button></a>
-            <a href="/gameinit"><button>Recommencer</button></a>
+            <h3>Joueur 1 : {{.Player1Name}} — Couleur: {{if eq .Player1Sym "X"}}<span style="color: #ff00ff;">●</span> Magenta{{else}}<span style="color: #0ff;">●</span> Cyan{{end}}</h3>
+            <h3>Joueur 2 : {{.Player2Name}} — Couleur: {{if eq .Player2Sym "X"}}<span style="color: #ff00ff;">●</span> Magenta{{else}}<span style="color: #0ff;">●</span> Cyan{{end}}</h3>
+            
+            <div class="buttons">
+                <a href="/"><button>ACCUEIL</button></a>
+                <a href="/gameinit"><button>RECOMMENCER</button></a>
+            </div>
         </article>
-
     </main>
-        
-        
 
     <footer>
-        <p>2024 Chill Games. Tous droits reserves.</p>
+        <p>&copy; 2025 Chill Games. Tous droits réservés.</p>
     </footer>
-
 </body>
 </html>
 {{end}}

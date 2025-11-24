@@ -169,6 +169,27 @@ nav *{
     background-color: #4b4b4b;
 }
 
+.gameboard .row .cell_info{
+    background-color: #61104b;
+    min-height: 60px;
+    min-width: 60px;
+    border-radius: 100px;
+    color: #0ff;
+    text-align: center;
+    font-size: x-large;
+    padding-top: 15px;
+}
+
+.gameboard .row .cell_info.clickable {
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.gameboard .row .cell_info.clickable:hover {
+    transform: scale(1.1);
+    background-color: #8a1569;
+    box-shadow: 0 0 15px #ff00ff;
+}
 
 /* === FOOTER === */
 
