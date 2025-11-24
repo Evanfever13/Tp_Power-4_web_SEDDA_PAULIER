@@ -18,6 +18,44 @@ type Game struct {
 	Gameboard   [6][7]string
 	Playerturn  string // contient le symbole courant ("X" ou "O")
 }
+type ScoreEntry struct {
+	Name  string
+	Score int
+}
+
+var ScoreBoard []ScoreEntry
+
+// === Mise à jour du ScoreBoard ===
+func updateScoreBoard(winner string) {
+	for i, entry := range ScoreBoard {
+		if entry.Name == winner {
+			ScoreBoard[i].Score++
+			return
+		}
+	}
+	ScoreBoard = append(ScoreBoard, ScoreEntry{Name: winner, Score: 1})
+}
+
+// === Fonction de tri du ScoreBoard ===
+func sortScoreBoard(sb []ScoreEntry) []ScoreEntry {
+	// Retourne une slice triée par score décroissant.
+	entries := make([]ScoreEntry, 0, len(sb))
+	for _, entry := range sb {
+		entries = append(entries, entry)
+	}
+
+	// Tri decroissant par score, puis par nom
+	for i := 1; i < len(entries); i++ {
+		key := entries[i]
+		j := i - 1
+		for j >= 0 && (entries[j].Score < key.Score || (entries[j].Score == key.Score && entries[j].Name > key.Name)) {
+			entries[j+1] = entries[j]
+			j--
+		}
+		entries[j+1] = key
+	}
+	return entries
+}
 
 // === Vérification victoire ===
 func WinCheck(board [6][7]string) bool {
@@ -181,6 +219,16 @@ func main() {
 	http.HandleFunc("/gameplay", func(w http.ResponseWriter, r *http.Request) {
 		// Utilise la logique de jeu
 		GamePlay(w, r, temp, &NewGame)
+	})
+
+	http.HandleFunc("/ScoreBoard", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("Affichage du ScoreBoard")
+
+		ScoreBoard = sortScoreBoard(ScoreBoard)
+		if err := temp.ExecuteTemplate(w, "ScoreBoard", ScoreBoard); err != nil {
+			fmt.Printf("erreur exec : %v\n", err.Error())
+			http.Error(w, "Erreur Templates", http.StatusInternalServerError)
+		}
 	})
 
 	// Fichiers statiques
