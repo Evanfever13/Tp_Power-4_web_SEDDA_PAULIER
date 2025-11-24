@@ -1,0 +1,108 @@
+@font-face {
+    font-family: "neon-glow";
+    src: url("/static/police/NeonGlow.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 15px #0ff, inset 0 0 5px #0ff; }
+    to { box-shadow: 0 0 25px #ff00ff, inset 0 0 15px #ff00ff; }
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    font-family: "neon-glow";
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+body{
+    background-color: #4b4b4b;
+}
+
+/*header*/
+
+header{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    box-shadow: 0 0 15px #0ff, 0 0 25px #ff00ff;
+    animation: glow 3s infinite alternate;
+    height: 90px ;
+}
+
+nav{
+    background-color: #222;
+    display: flex;
+    justify-content: space-evenly;
+       
+}
+
+nav *{
+    font-size: 150%;
+    color: #277f89;
+    margin-top: 10px;
+    border-radius: 5%;
+    height: 10vh;
+    width: auto;
+}
+
+/*main*/
+
+main h1{
+    text-align: center;
+    color: #570848;
+    margin-top: 5vh;
+    font-size: 40px;
+}
+
+main p{
+    margin-top: 5vh;
+    text-align: center;
+    color: #277f89;
+    margin-bottom: 5vh;
+    font-size: 30px
+}
+
+main article{
+    background-color: #222;
+    border: 1px solid #277f89;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 180px;
+    border-radius: 2%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0 0 15px #0ff, 0 0 25px #ff00ff;
+    animation: glow 3s infinite alternate;
+}
+
+main button{
+    margin: 20px;
+    padding: 0.8rem 2rem;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #0ff, #ff00ff);
+    animation: glow 3s infinite alternate;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 15px #0ff, 0 0 25px #ff00ff;
+    transition: transform 0.2s, box-shadow 0.3s;
+    margin-left: 35%;
+}
+
+/*footer*/
+
+footer{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #222;
+    color: #277f89;
+    border: 1px solid #277f89;
+    height: 2vh;
+}
