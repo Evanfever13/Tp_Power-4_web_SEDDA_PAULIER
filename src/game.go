@@ -105,7 +105,7 @@ func isBoardFull(board [6][7]string) bool {
 
 // === Initialisation des symboles et du tour ===
 func (g *Game) InitPlayer() {
-
+	fmt.Println(g)
 	g.Player1Sym, g.Player2Sym = "X", "O"
 	g.Playerturn = g.Player1Sym
 	fmt.Println("Le joueur 1 commence avec X")
@@ -139,56 +139,50 @@ func (g *Game) AddJeton(colonne int) bool {
 
 // === Gameplay ===
 func GamePlay(w http.ResponseWriter, r *http.Request, g *Game) {
-	if r.Method == http.MethodPost {
+	// Parse le formulaire
+	if err := r.ParseForm(); err != nil {
+		http.Redirect(w, r, "/error", http.StatusSeeOther)
+	}
 
-		// Parse le formulaire
-		if err := r.ParseForm(); err != nil {
-			http.Redirect(w, r, "/error", http.StatusSeeOther)
-			return
-		}
+	// Récupère la colonne jouée
+	colStr := r.FormValue("colonne")
+	if colStr == "" {
+		colStr = r.FormValue("Play")
+	}
 
-		// Récupère la colonne jouée
-		colStr := r.FormValue("colonne")
-		if colStr == "" {
-			colStr = r.FormValue("Play")
-		}
+	// Convertit en entier
+	var col int
+	_, err := fmt.Sscanf(colStr, "%d", &col)
+	if err != nil {
+		log.Println("Colonne invalide")
+	}
+	col--
 
-		// Convertit en entier
-		var col int
-		_, err := fmt.Sscanf(colStr, "%d", &col)
-		if err != nil {
-			log.Println("Colonne invalide")
-			return
-		}
-		col--
+	// Ajoute le jeton
+	if !g.AddJeton(col) {
+		log.Println("Colonne pleine ou invalide")
+	} else {
 
-		// Ajoute le jeton
-		if !g.AddJeton(col) {
-			log.Println("Colonne pleine ou invalide")
-		} else {
-
-			// Vérifie la victoire
-			if WinCheck(g.Gameboard) {
-				log.Println("Victoire du symbole", g.Playerturn)
-				if g.Playerturn == g.Player1Sym {
-					g.PlayerWinner = g.Player1Name
-				} else {
-					g.PlayerWinner = g.Player2Name
-				}
-				updateScoreBoard(g.PlayerWinner)
-				http.Redirect(w, r, "/game/end", http.StatusSeeOther)
-				return
-
-				// Vérifie si le plateau est plein (match nul)
-			} else if isBoardFull(g.Gameboard) {
-				log.Println("Match nul")
-				g.PlayerWinner = "Nul"
-				http.Redirect(w, r, "/game/end", http.StatusSeeOther)
-				return
+		// Vérifie la victoire
+		if WinCheck(g.Gameboard) {
+			log.Println("Victoire du symbole", g.Playerturn)
+			if g.Playerturn == g.Player1Sym {
+				g.PlayerWinner = g.Player1Name
 			} else {
-				// Change de joueur
-				g.switchPlayer()
+				g.PlayerWinner = g.Player2Name
 			}
+			updateScoreBoard(g.PlayerWinner)
+			http.Redirect(w, r, "/game/end", http.StatusSeeOther)
+
+			// Vérifie si le plateau est plein (match nul)
+		} else if isBoardFull(g.Gameboard) {
+			log.Println("Match nul")
+			g.PlayerWinner = "Nul"
+			http.Redirect(w, r, "/game/end", http.StatusSeeOther)
+		} else {
+			// Change de joueur
+			fmt.Println(g)
+			g.switchPlayer()
 		}
 	}
 }

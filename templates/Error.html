@@ -22,12 +22,12 @@
 
     <main>
         <div class="error-container">
-            <div class="error-code">404</div>
-            <h1 class="error-title">Page non trouvée</h1>
-            <p class="error-message">Oups ! La page que vous recherchez n'existe pas ou a été déplacée.</p>
+            <div class="error-code">{{if .Code}} {{.Code}} {{else}}500{{end}}</div>
+            <h1 class="error-title">Erreur...</h1>
+            <p class="error-message">{{if .Message}}{{.Message}}{{else}}xxxxxxx{{end}}</p>
             <div class="error-actions">
                 <a href="/" class="btn-home">Retour à l'accueil</a>
-                <a href="/gameinit" class="btn-play">Jouer une partie</a>
+                <a href="/game/init" class="btn-play">Jouer une partie</a>
             </div>
         </div>
     </main>

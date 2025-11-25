@@ -12,9 +12,16 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 
 // === ErrorHandler ===
 func ErrorHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.FormValue("code"))
-	fmt.Println(r.FormValue("message"))
-	fmt.Fprintf(w, "Une erreur est survenue lors du traitement de votre requete.")
+	type ErrorData struct {
+		Message string
+		Code    string
+	}
+
+	data := ErrorData{
+		Message: r.FormValue("message"),
+		Code:    r.FormValue("code"),
+	}
+	RenderTemplate(w, r, "Error", data)
 }
 
 // === GameInitHandler ===
@@ -24,11 +31,12 @@ func GameInitHandler(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/error", http.StatusSeeOther)
 			return
 		}
-		var NewGame = Game{
+		NewGame = Game{
 			Player1Name: r.FormValue("joueur1"),
 			Player2Name: r.FormValue("joueur2"),
 			Gameboard:   [6][7]string{},
 		}
+
 		NewGame.InitPlayer()
 		fmt.Println("Noms:", NewGame.Player1Name, "vs", NewGame.Player2Name)
 		fmt.Println("Plateau initialisé")
@@ -41,6 +49,8 @@ func GameInitHandler(w http.ResponseWriter, r *http.Request) {
 // === GamePlayHandler ===
 func GamePlayHandler(w http.ResponseWriter, r *http.Request) {
 	GamePlay(w, r, &NewGame)
+	fmt.Println(&NewGame)
+	RenderTemplate(w, r, "GamePlay", &NewGame)
 }
 
 // === GameEndHandler ===
