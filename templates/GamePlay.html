@@ -13,9 +13,9 @@
     <header>
         <nav>
             <a href="/"><p>Accueil</p></a>
-            <a href="/gameinit"><p>Jouer</p></a>
-            <img src="/static/img/Logo.png" alt="Logo CyberPuissance4">
-            <a href="/ScoreBoard"><p>Scores</p></a>
+            <a href="/game/init"><p>Jouer</p></a>
+            <img src="../static/img/Logo.png" alt="Logo CyberPuissance4">
+            <a href="/scoreboard"><p>Scores</p></a>
             <a href="/profile"><p>Profil</p></a>
         </nav>
     </header>
@@ -55,7 +55,7 @@
         </section>
 
         <section>
-            <form class="Action" action="/gameplay" method="post">
+            <form class="Action" action="/game/play" method="post">
 
                 <label for="colonne">Choisissez une colonne (1 à 7) :</label>
                 <input type="text" id="colonne" name="colonne" required>
