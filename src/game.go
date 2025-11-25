@@ -91,6 +91,18 @@ func WinCheck(board [6][7]string) bool {
 	return false
 }
 
+// === Vérification si le plateau est plein ===
+func isBoardFull(board [6][7]string) bool {
+	for r := 0; r < 6; r++ {
+		for c := 0; c < 7; c++ {
+			if board[r][c] == "" {
+				return false
+			}
+		}
+	}
+	return true
+}
+
 // === Initialisation des symboles et du tour ===
 func (g *Game) InitPlayer() {
 
@@ -167,6 +179,12 @@ func GamePlay(w http.ResponseWriter, r *http.Request, g *Game) {
 				http.Redirect(w, r, "/game/end", http.StatusSeeOther)
 				return
 
+				// Vérifie si le plateau est plein (match nul)
+			} else if isBoardFull(g.Gameboard) {
+				log.Println("Match nul")
+				g.PlayerWinner = "Nul"
+				http.Redirect(w, r, "/game/end", http.StatusSeeOther)
+				return
 			} else {
 				// Change de joueur
 				g.switchPlayer()

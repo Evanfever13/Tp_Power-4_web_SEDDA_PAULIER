@@ -22,7 +22,11 @@
     <main>
         <article>
             <h1>Resultat de la partie</h1>
-            <h2>Victoire de {{.PlayerWinner}} !</h2>
+            {{if eq .PlayerWinner "Nul"}}
+            <h2>Match nul !</h2>
+            {{else}}
+            <h2>Le gagnant est : {{.PlayerWinner}} !</h2>
+            {{end}}
             <h3>Joueur 1 : {{.Player1Name}} — Couleur: {{if eq .Player1Sym "X"}}<span style="color: #ff00ff;">●</span> Magenta{{else}}<span style="color: #0ff;">●</span> Cyan{{end}}</h3>
             <h3>Joueur 2 : {{.Player2Name}} — Couleur: {{if eq .Player2Sym "X"}}<span style="color: #ff00ff;">●</span> Magenta{{else}}<span style="color: #0ff;">●</span> Cyan{{end}}</h3>
             
