@@ -1,0 +1,50 @@
+{{define "Home"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/home.css">
+    <title>CyberPuissance 4</title>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <a href="/"><p>Accueil</p></a>
+            <a href="/gameinit"><p>Jouer</p></a>
+            <img src="/static/img/Logo.png" alt="Logo CyberPuissance4">
+            <a href="/ScoreBoard"><p>Scores</p></a>
+            <a href="/profile"><p>Profil</p></a>
+        </nav>
+    </header>
+
+    <main>
+        <article class=top>
+            <h1>Bienvenue sur CyberPuissance 4 !</h1>
+            <p>Le jeu de Puissance 4 en ligne ou vous pouvez defier vos amis et grimper dans les classements mondiaux !</p>
+            <br>
+        </article>
+        
+        <article>
+            <h1>Regles du jeu :</h1>
+            <p>Le but du jeu est d'aligner quatre jetons de la meme couleur horizontalement, verticalement ou diagonalement.</p>
+            <br>
+            <a href="/gameinit"><button>Commencer a jouer</button></a>
+        </article>
+
+        <article>
+            <img src="/static/img/Gameplay.png" alt="Image de présentation du jeu">
+            <a href="/gameinit"><button>Commencer a jouer</button></a>
+        </article>
+        
+    </main>
+
+    <footer>
+        <p>2024 Chill Games. Tous droits reserves.</p>
+    </footer>
+
+</body>
+</html>
+{{end}}

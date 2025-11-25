@@ -1,0 +1,48 @@
+{{define "GameInit"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start - Chill Games</title>
+    <link rel="stylesheet" href="../static/gameinit.css">
+</head>
+<body>
+    <div class="background"></div>
+
+    <header>
+        <nav>
+            <a href="/"><p>Accueil</p></a>
+            <a href="/gameinit"><p>Jouer</p></a>
+            <img src="/static/img/Logo.png" alt="Logo CyberPuissance4">
+            <a href="/ScoreBoard"><p>Scores</p></a>
+            <a href="/profile"><p>Profil</p></a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="panneau">
+            <form class="panneau-pseudo" action="/gameinit" method="POST">
+                <h2>⚡ Initialisation de la partie ⚡</h2>
+
+                <div class="form-group">
+                    <label for="joueur1">Pseudo Joueur 1 :</label>
+                    <input type="text" id="joueur1" name="joueur1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="joueur2">Pseudo Joueur 2 :</label>
+                    <input type="text" id="joueur2" name="joueur2" required>
+                </div>
+
+                <button type="submit" class="btn-start">🚀 Commencer</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Chill Games. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
+{{end}}
