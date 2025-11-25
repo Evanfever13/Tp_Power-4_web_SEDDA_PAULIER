@@ -1,0 +1,37 @@
+{{define "Error"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/gameend.css">
+    <title>Error</title>
+    <link rel="icon" type="image/png" href="../static/img/Logo.png">
+    <link rel="stylesheet" href="../static/styles/error.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="/"><p>Accueil</p></a>
+            <a href="/gameinit"><p>Jouer</p></a>
+            <img src="/static/img/Logo.png" alt="Logo CyberPuissance4">
+            <a href="/scores"><p>Scores</p></a>
+            <a href="/profile"><p>Profil</p></a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="error-section">
+            <h1>Erreur 404 : Page non trouvée</h1>
+            <p>La page que vous recherchez n'existe pas ou a été déplacée.</p>
+            <a href="/"><button>Retour à l'accueil</button></a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Chill Games. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
+{{end}}
