@@ -9,8 +9,10 @@ import (
 	"net/url"
 )
 
+// === Definition de la liste des templates ===
 var listTemp *template.Template
 
+// === Chargement des templates ===
 func LoadTemplates() {
 	listTemplate, errTemplate := template.ParseGlob("./../templates/*.html")
 	if errTemplate != nil {
@@ -20,6 +22,7 @@ func LoadTemplates() {
 	listTemp = listTemplate
 }
 
+// === Rendu des templates ===
 func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, data interface{}) {
 
 	var buffer bytes.Buffer

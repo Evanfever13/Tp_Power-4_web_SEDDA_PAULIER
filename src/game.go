@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"html/template"
+	"log"
 	"net/http"
 )
 
+// === Structures ===
 type Game struct {
 	PlayerWinner string
 	Player1Name  string
@@ -20,6 +21,8 @@ type ScoreEntry struct {
 	Score int
 }
 
+// === Variables Globales ===
+var NewGame Game
 var ScoreBoard []ScoreEntry
 
 // === Mise à jour du ScoreBoard ===
@@ -37,10 +40,7 @@ func updateScoreBoard(winner string) {
 func sortScoreBoard(sb []ScoreEntry) []ScoreEntry {
 	// Retourne une slice triée par score décroissant.
 	entries := make([]ScoreEntry, 0, len(sb))
-	for _, entry := range sb {
-		entries = append(entries, entry)
-	}
-
+	entries = append(entries, sb...)
 	// Tri decroissant par score, puis par nom
 	for i := 1; i < len(entries); i++ {
 		key := entries[i]
@@ -126,42 +126,49 @@ func (g *Game) AddJeton(colonne int) bool {
 }
 
 // === Gameplay ===
-func GamePlay(w http.ResponseWriter, r *http.Request, temp *template.Template, g *Game) {
+func GamePlay(w http.ResponseWriter, r *http.Request, g *Game) {
 	if r.Method == http.MethodPost {
+
+		// Parse le formulaire
 		if err := r.ParseForm(); err != nil {
-			http.Error(w, "Impossible de lire le formulaire", http.StatusBadRequest)
+			http.Redirect(w, r, "/error", http.StatusSeeOther)
 			return
 		}
+
+		// Récupère la colonne jouée
 		colStr := r.FormValue("colonne")
 		if colStr == "" {
 			colStr = r.FormValue("Play")
 		}
 
+		// Convertit en entier
 		var col int
 		_, err := fmt.Sscanf(colStr, "%d", &col)
 		if err != nil {
-			http.Error(w, "Colonne invalide", http.StatusBadRequest)
+			log.Println("Colonne invalide")
 			return
 		}
 		col--
 
+		// Ajoute le jeton
 		if !g.AddJeton(col) {
-			fmt.Println("Colonne pleine ou invalide")
+			log.Println("Colonne pleine ou invalide")
 		} else {
+
+			// Vérifie la victoire
 			if WinCheck(g.Gameboard) {
-				fmt.Println("Victoire du symbole", g.Playerturn) // Test + Vérif du Winner
+				log.Println("Victoire du symbole", g.Playerturn)
 				if g.Playerturn == g.Player1Sym {
 					g.PlayerWinner = g.Player1Name
 				} else {
 					g.PlayerWinner = g.Player2Name
 				}
 				updateScoreBoard(g.PlayerWinner)
-				if err := temp.ExecuteTemplate(w, "GameEnd", g); err != nil {
-					fmt.Println("Template Victory manquant, retour au gameplay") // En cas de manque d'info/Templates
-				} else {
-					return
-				}
+				http.Redirect(w, r, "/game/end", http.StatusSeeOther)
+				return
+
 			} else {
+				// Change de joueur
 				g.switchPlayer()
 			}
 		}
