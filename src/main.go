@@ -3,10 +3,8 @@ package main
 import (
 	"fmt"
 	"html/template"
-	"math/rand"
+	"log"
 	"net/http"
-	"os"
-	"time"
 )
 
 // === Structure du jeu ===
@@ -175,76 +173,17 @@ func GamePlay(w http.ResponseWriter, r *http.Request, temp *template.Template, g
 		http.Error(w, "Erreur Templates", http.StatusInternalServerError) // En cas de manque d'info/Templates
 	}
 }
-
-// === Main ===
 func main() {
-	rand.Seed(time.Now().UnixNano())
+	LoadTemplates()
 
-	NewGame := Game{}
+	mux := http.NewServeMux()
 
-	// Chargement des templates HTML
-	temp, err := template.ParseGlob("./templates/*.html")
+	mainRouter(mux)
+
+	addr := "localhost:8080"
+	fmt.Printf("Serve on : http://%s\n", addr)
+	err := http.ListenAndServe(addr, mux)
 	if err != nil {
-		fmt.Println("Erreur template:", err)
-		os.Exit(1)
-	}
-
-	// Routes
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if err := temp.ExecuteTemplate(w, "Home", nil); err != nil {
-			http.Error(w, "Erreur Templates", http.StatusInternalServerError)
-		}
-	})
-
-	http.HandleFunc("/gameinit", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == http.MethodPost {
-			if err := r.ParseForm(); err != nil {
-				http.Error(w, "Impossible de lire le formulaire", http.StatusBadRequest)
-				return
-			}
-			NewGame = Game{
-				Player1Name: r.FormValue("joueur1"),
-				Player2Name: r.FormValue("joueur2"),
-				Gameboard:   [6][7]string{},
-			}
-			NewGame.InitPlayer()
-			fmt.Println("Noms:", NewGame.Player1Name, "vs", NewGame.Player2Name)
-			fmt.Println("Plateau initialisé")
-			http.Redirect(w, r, "/gameplay", http.StatusSeeOther)
-			return
-		}
-		if err := temp.ExecuteTemplate(w, "GameInit", nil); err != nil {
-			http.Error(w, "Erreur Templates", http.StatusInternalServerError)
-		}
-	})
-
-	http.HandleFunc("/gameplay", func(w http.ResponseWriter, r *http.Request) {
-		// Utilise la logique de jeu
-		GamePlay(w, r, temp, &NewGame)
-	})
-
-	http.HandleFunc("/ScoreBoard", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("Affichage du ScoreBoard")
-
-		ScoreBoard = sortScoreBoard(ScoreBoard)
-		if err := temp.ExecuteTemplate(w, "ScoreBoard", ScoreBoard); err != nil {
-			fmt.Printf("erreur exec : %v\n", err.Error())
-			http.Error(w, "Erreur Templates", http.StatusInternalServerError)
-		}
-	})
-
-	http.HandleFunc("/gameend", func(w http.ResponseWriter, r *http.Request) {
-		// Utilise la logique de jeu
-		GamePlay(w, r, temp, &NewGame)
-	})
-	// Fichiers statiques
-	fichierserveur := http.FileServer(http.Dir("./assets"))
-	http.Handle("/static/", http.StripPrefix("/static/", fichierserveur))
-
-	// Serveur
-	fmt.Println("Le Serveur est Lancé sur : http://localhost:8000/")
-	if err := http.ListenAndServe("localhost:8000", nil); err != nil {
-		fmt.Println("Erreur serveur:", err)
-		os.Exit(1)
+		log.Fatal("Erreur serveur:", err)
 	}
 }
