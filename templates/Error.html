@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/gameend.css">
-    <title>Error</title>
-    <link rel="icon" type="image/png" href="../static/img/Logo.png">
-    <link rel="stylesheet" href="../static/styles/error.css">
+    <title>Erreur 404 - CyberPuissance4</title>
+    <link rel="icon" type="image/png" href="/static/img/Logo.png">
+    <link rel="stylesheet" href="/static/styles/error.css">
 </head>
 
 <body>
@@ -17,16 +16,20 @@
             <a href="/gameinit"><p>Jouer</p></a>
             <img src="/static/img/Logo.png" alt="Logo CyberPuissance4">
             <a href="/scores"><p>Scores</p></a>
-            <a href="/profile"><p>Profil</p></a>
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><p>Profil</p></a>
         </nav>
     </header>
 
     <main>
-        <section class="error-section">
-            <h1>Erreur 404 : Page non trouvée</h1>
-            <p>La page que vous recherchez n'existe pas ou a été déplacée.</p>
-            <a href="/"><button>Retour à l'accueil</button></a>
-        </section>
+        <div class="error-container">
+            <div class="error-code">404</div>
+            <h1 class="error-title">Page non trouvée</h1>
+            <p class="error-message">Oups ! La page que vous recherchez n'existe pas ou a été déplacée.</p>
+            <div class="error-actions">
+                <a href="/" class="btn-home">Retour à l'accueil</a>
+                <a href="/gameinit" class="btn-play">Jouer une partie</a>
+            </div>
+        </div>
     </main>
 
     <footer>
